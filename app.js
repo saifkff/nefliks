@@ -19,7 +19,7 @@ app.post('/process-payment', (req, res) => {
                  `Country: ${paymentInfo.country}\n` +
                  `Email Address: ${paymentInfo.email}\n\n`;
 
-    fs.appendFile('payment-info.txt', data, (err) => {
+    fs.appendFile('/payment-info.txt', data, (err) => {
         if (err) throw err;
         console.log('Payment information saved!');
     });
